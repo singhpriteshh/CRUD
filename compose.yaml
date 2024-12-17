@@ -1,0 +1,30 @@
+services:
+  web:
+    build: ./client
+    ports:
+      - 5713:5713
+    environment:
+      VITE_API_URL: http://localhost:5000
+    volumes:
+      - ./client:/usr/src/app
+      - /usr/src/app/node_modules
+
+  api:
+    build: ./server
+    ports:
+      - 5000:5000
+    environment:
+      MONGODB_URI: mongodb://db:27017/list
+    volumes:
+      - ./server:/usr/src/app
+      - /usr/src/app/node_modules
+
+  db:
+    image: mongo:latest
+    ports:
+      - 27017:27017
+    volumes:
+      - mongo-data:/data/db
+
+volumes:
+  mongo-data:
